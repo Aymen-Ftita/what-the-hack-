@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WHAT THE HACK!</title>
+    <style>
+        body {
+            background: black;
+            color: #00ff00;
+            font-family: monospace;
+            padding: 20px;
+        }
+        #terminal {
+            white-space: pre-wrap;
+            border: 2px solid #00ff00;
+            padding: 15px;
+            height: 500px;
+            overflow-y: auto;
+        }
+        button {
+            margin-top: 15px;
+            background: black;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h2>WHAT THE HACK!</h2>
+<p>By Aymen Ftita</p>
+
+<button onclick="startGame()">RUN GAME</button>
+
+<div id="terminal"></div>
+
+<script>
+function startGame() {
+    document.getElementById("terminal").textContent = "";
+    const eventSource = new EventSource("/stream");
+
+    eventSource.onmessage = function(event) {
+        const terminal = document.getElementById("terminal");
+        terminal.textContent += event.data;
+        terminal.scrollTop = terminal.scrollHeight;
+    };
+
+    eventSource.onerror = function() {
+        eventSource.close();
+    };
+}
+</script>
+
+</body>
+</html>
